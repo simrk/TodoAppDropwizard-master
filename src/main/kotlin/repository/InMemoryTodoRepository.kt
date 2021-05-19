@@ -18,24 +18,22 @@ class InMemoryTodoRepository : TodoRepository
         return todos.firstOrNull { it.id == id }
     }
 
-    override fun addTodo(draft: TodoDraft): Todo {
+    override fun addTodo(draft: TodoDraft): Boolean {
         val todo = Todo(
             id=todos.size+1,
             title=draft.title,
             done=draft.done
         )
-
-        todos.add(todo)
-        return todo
+        return todos.add(todo);
     }
 
-    override fun updateTodo(id: Int, draft: TodoDraft): Boolean
+    override fun updateTodo(id: Int, draft: TodoDraft): Int
         {
-            val todo = todos.firstOrNull { it.id == id } ?: return false;
+            val todo = todos.firstOrNull { it.id == id } ?: return 0;
 
             todo.title = draft.title
             todo.done = draft.done
-            return true
+            return 1
         }
 
 }

@@ -9,8 +9,8 @@ interface TodoRepository
 
     fun getTodo(id:Int): Todo?
 
-    fun addTodo(draft: TodoDraft):Todo
+    fun addTodo(draft: TodoDraft):Boolean
 
-    fun updateTodo(id:Int,draft: TodoDraft):Boolean
+    fun updateTodo(id:Int,draft: TodoDraft):Int
 
 }

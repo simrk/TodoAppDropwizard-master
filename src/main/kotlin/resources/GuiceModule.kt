@@ -2,31 +2,27 @@ package resources
 
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
-import com.google.inject.name.Names
-import repository.InMemoryTodoRepository
-import repository.InMemoryTodoRepository2
-import repository.TodoRepository
-import sun.misc.MessageUtils.out
-import java.lang.System.out
-import java.time.LocalTime
+import com.google.inject.name.Named
+import repository.*
 
-class GuiceModule(private val name: String) : AbstractModule()
-{
+class GuiceModule(
+    private val name: String,
+    private val type: String
+) : AbstractModule() {
 
-    override fun configure()
-    {
-        bind(String::class.java).annotatedWith(Names.named("name")).toInstance(name)
+    override fun configure() {
+        val dbInstance = DBIClientBuilder().build()
+        bind(TodoDao::class.java).toInstance(dbInstance.onDemand(TodoDao::class.java))
+        bind(TodoRepository::class.java).to(SqlDatabaseTodoRepository::class.java)
+//        bind(String::class.java).toInstance(name)
+//        bind(String::class.java).annotatedWith(Names.named("name")).toInstance(name)
+//        bind(String::class.java).toInstance(type)
     }
 
+    @Named("name")
     @Provides
-    fun get(): TodoRepository
-    {
-        //TODO: based on this configuration , select the proper class type to be injected
-        return if(name=="kotlin") {
-            InMemoryTodoRepository()
-        }else {
-            InMemoryTodoRepository2()
-        }
+    fun getName(): String {
+        return name;
     }
 
 }

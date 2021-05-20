@@ -23,9 +23,6 @@ open class KotlinMapper<C : Any> constructor(private val clazz: Class<C>) : Resu
         val constructor = klass.primaryConstructor!!
         constructor.isAccessible = true
 
-        // TODO: best fit for constructors + writeable properties, pay attention to nullables/optionals with default values
-        //       for now just call primary constructor using named params and hope
-
         val validParametersByName = constructor.parameters
             .filter { it.kind == KParameter.Kind.VALUE && it.name != null }
             .map { it.name!!.toLowerCase() to it }

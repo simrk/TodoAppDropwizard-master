@@ -1,9 +1,11 @@
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.google.inject.Guice
 import configuration.AppConfig
 import io.dropwizard.Application
-import io.dropwizard.jdbi.DBIFactory
+import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
-import repository.TodoDao
 import resources.GuiceModule
 import resources.SampleResource
 import resources.TodoResource
@@ -26,5 +28,8 @@ class App : Application<AppConfig>() {
         env.jersey().register(instance2)
     }
 
+    override fun initialize(bootstrap: Bootstrap<AppConfig>) {
+        bootstrap.objectMapper.registerKotlinModule()
+    }
 }
 

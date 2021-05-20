@@ -1,16 +1,19 @@
 package repository
 
+import entities.Status
 import entities.Todo
-import entities.TodoDraft
 
 interface TodoRepository
 {
-    fun getAllTodos(): List<Todo>
+    fun getAllTodos(userId: String,page: Int,count: Int): List<Todo>?
 
-    fun getTodo(id:Int): Todo?
+    fun getTodo(todoId: Int): Todo?
 
-    fun addTodo(draft: TodoDraft):Boolean
+    fun getTodoByStatus(userId: String,status: Status,page: Int,count: Int): List<Todo>?
 
-    fun updateTodo(id:Int,draft: TodoDraft):Int
+    fun addTodo(description: String,userId: String):Int
 
+    fun editTodo(todoId:Int, description: String):Int
+
+    fun changeStatus(todoId: Int,status: Status): Int
 }
